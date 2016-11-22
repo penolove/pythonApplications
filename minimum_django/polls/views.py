@@ -7,14 +7,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 def index(request):
+	#pass parameter to template
+    return render(request, 'polls/index2.html',{'post':"kerker"})
+    
+    #pass parameter to template
+    #return render(request, 'polls/index1.html',{'post':"kerker"})
+    
+    #using template
+    #return render(request, 'polls/index.html')
+
     #using some web technique    
     #return render(request, 'bootstrap/tutorial/DynamicTabs.html')
 
-    #using template
-    return render(request, 'polls/index.html')
-
-    #pass parameter to template
-    #return render(request, 'polls/index1.html',{'post':"kerker"})
 
 def index3(request):
     #pass list and loops in the template
@@ -42,6 +46,9 @@ cascPath = settings.BASE_DIR+"/haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
 def imFD(request,id):
+	# this function will read a image, and face detect , write with retangle
+	# thus , render the page with the image with face retangle to web 
+
     dirPath="/home/stream/pythonApplications/minimum_django/polls/static/"
     imgdir="target_pics/"
     outdir="out_pics/"
@@ -80,6 +87,8 @@ import time
 
 @csrf_exempt
 def post_example(request):
+	# this function used to show post mechanism
+	# and is the template of hw
     if request.method == 'POST':
         print("==========requestBody=================")
         print(request.body);
@@ -100,7 +109,7 @@ def post_example(request):
         #print json_data['friend']
         
         # what you need to do is parse the data and write it to DB
-        # (a) you need to create DB outside  and with col 
+        # (a) you need to create table outside  and with col 
         # (image_id(text),friend(bool),human(bool),x(real),y(real),w(real),h(real))
 
         # (b) edit the imFD function above , and add numbers upto the images
