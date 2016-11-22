@@ -1,0 +1,82 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta charset="utf-8">
+        <title>Face Detection</title>
+  </head>
+	<style>
+	  .wait {
+	      display:    none;
+	      position:   fixed;
+	      z-index:    1000;
+	      top:        0;
+	      left:       0;
+	      height:     100%;
+	      width:      100%;
+	      background: rgba( 255, 255, 255, .8 ) 
+	                  url('http://i.stack.imgur.com/FhHRx.gif') 
+	                  50% 50% 
+	                  no-repeat;
+	  }
+	</style>
+
+  <link rel="stylesheet" type="text/css" href="{% static 'polls/style_FD.css' %}" />
+  <script type="text/javascript" src="{% static 'jquery-3.1.0.min.js' %}"></script>
+
+
+  <script type="text/javascript">
+
+	  var faceboxes = {{faceboxes|safe}};
+	  var pic_path = "{{pic_ori_path|safe}}";
+	  var id ={{id|safe}};
+	  function myFunction() {
+	  	console.log(document.getElementById("friend").value);
+	  	console.log(document.getElementById("nothuman").value);
+	  }
+
+	  function ajaxtrial(){
+	      console.log("kerker");
+	      $.ajax({
+	          url: "http://localhost:7999/polls/post_example",
+	          type: "post",
+	          dataType: 'json',
+	          data: {
+	          		friend:document.getElementById("friend").value,
+	          		nothuman:document.getElementById("nothuman").value,
+	      			facebox:JSON.stringify(faceboxes),
+	      			pic_path:pic_path
+	      		},
+	          success: function(response) {
+	              console.log(response);
+	              location.href = "http://localhost:7999/polls/imFD/"+(parseInt(id)+1);
+	          }
+	      })
+	  }
+
+	  //////////////////just loading kerker///////////////////
+	  $(document).on({
+	      ajaxStart: function() { console.log("starting");  
+	                  $('.wait').show();},
+	       ajaxStop: function() { console.log("stop"); 
+	                $('.wait').hide();}    
+	  });
+
+  </script>
+
+  <body>
+  	<div id="wait" class="wait"></div>
+
+  	<img src="{{STATIC_PREFIX}}{{pic_path}}" alt="My image"/>
+
+  	<br>
+	Which are your friend (spilt by "," if more):<br>
+	<input type="text" id="friend" value=""><br>
+	Which are not human (spilt by "," if more):<br>
+	<input type="text" id="nothuman" value=""><br><br>
+	<button onclick="ajaxtrial()">Click me</button>
+
+  </body>
+</html>
