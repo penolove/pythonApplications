@@ -4,14 +4,14 @@
 jieba library
 select,insert,create,delete
 
+## NumpyxOpencv
+basic Numpy , basic Opencv
+
 ## Django
 a web example with ajax 
 and  get /post usage
 
-
-
-## Opencv
-
-
 ## Scikit-Learn
+Knn x svm x logistic regression
+
 
