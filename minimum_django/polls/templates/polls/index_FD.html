@@ -40,7 +40,7 @@
 	  function ajaxtrial(){
 	      console.log("kerker");
 	      $.ajax({
-	          url: "http://localhost:7999/polls/post_example",
+	          url: "http://127.0.0.1:8000/polls/post_example",
 	          type: "post",
 	          dataType: 'json',
 	          data: {
@@ -51,7 +51,7 @@
 	      		},
 	          success: function(response) {
 	              console.log(response);
-	              location.href = "http://localhost:7999/polls/imFD/"+(parseInt(id)+1);
+	              location.href = "http://127.0.0.1:8000/polls/imFD/"+(parseInt(id)+1);
 	          }
 	      })
 	  }
