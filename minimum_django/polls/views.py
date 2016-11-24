@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from django.conf import settings
 import cv2
+import sqlite3
 import glob
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 def index(request):
-	#pass parameter to template
-    return render(request, 'polls/index2.html',{'post':"kerker"})
+    #pass parameter to template
+    #return render(request, 'polls/index2.html',{'post':"kerker"})
     
     #pass parameter to template
-    #return render(request, 'polls/index1.html',{'post':"kerker"})
+    return render(request, 'polls/index1.html',{'post':"kerkerman"})
     
     #using template
     #return render(request, 'polls/index.html')
@@ -29,9 +30,12 @@ def imshow(request):
     return render(request, 'polls/imshow.html',{'pic_path':"target_pics/test_baseketball.jpg"})
 
 def imshow2(request,id):
+    ######################################################################
     dirPath="/home/stream/pythonApplications/minimum_django/polls/static/"
+    ######################################################################
     imgdir="target_pics"
     fileID=glob.glob(dirPath+imgdir+"/*.jpg")
+    print "there are "+str(len(fileID)) +" in side target_pics"
     #pass list and loops in the template
     return render(request, 'polls/imshow.html',{'pic_path':fileID[int(id)].replace(dirPath,'')})
 
@@ -46,17 +50,22 @@ cascPath = settings.BASE_DIR+"/haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
 def imFD(request,id):
-	# this function will read a image, and face detect , write with retangle
-	# thus , render the page with the image with face retangle to web 
+    print "[debug]: for imFD"
 
+    # this function will read a image, and face detect , write with retangle
+    # thus , render the page with the image with face retangle to web 
+
+    ###you need to change path here#####
     dirPath="/home/stream/pythonApplications/minimum_django/polls/static/"
+    ###you need to change path here#####
+
     imgdir="target_pics/"
     outdir="out_pics/"
 
     #the file list
     fileID=glob.glob(dirPath+imgdir+"*.jpg")
     if(int(id)>=len(fileID)):
-    	id=str(0)
+        id=str(0)
     print settings.BASE_DIR
     #read the image
     img = cv2.imread(fileID[int(id)])
@@ -72,6 +81,15 @@ def imFD(request,id):
 
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        #######################################################
+        #(A) write your code here add unmber upto the boxes####
+        ########################################################
+        # font = cv2.FONT_HERSHEY_SIMPLEX 
+        # cv2.putText(img,str(add_number),(oo,xx), font,\
+        # 1,(255,255,255),2)
+        ########################################################
+
+
     outfileID=glob.glob(dirPath+outdir+"*.jpg")
     cv2.imwrite(dirPath+outdir+str(len(outfileID))+".jpg", img)
 
@@ -87,41 +105,59 @@ import time
 
 @csrf_exempt
 def post_example(request):
-	# this function used to show post mechanism
-	# and is the template of hw
+    print "[debug]: for post_example"
+    # this function used to show post mechanism
+    # and is the template of hw
     if request.method == 'POST':
-        print("==========requestBody=================")
-        print(request.body);
-        print("==========request.POST=================")
-        print(request.POST);
         time.sleep(1)
-
-
+        # here are some help message
+        #print("==========requestBody=================")
+        #print(request.body);
+        #print("==========request.POST=================")
+        #print(request.POST);
 
         #print("==========request.Hw=================")
+        # you should try to uncommand this four data
         #print(request.POST['friend'])
         #print(request.POST['nothuman'])
         #print(request.POST['facebox'])
         #print(request.POST['pic_path'])
-
-        # if the body is json like :
-        #json_data = json.loads(request.body) 
-        #print json_data['friend']
-        
         # what you need to do is parse the data and write it to DB
-        # (a) you need to create table outside  and with col 
+        
+        ###############################################################
+        # (B) Create table:FaceBoxes !!OUTSIDE(not in this function)!!
+        # with col :
         # (image_id(text),friend(bool),human(bool),x(real),y(real),w(real),h(real))
-
-        # (b) edit the imFD function above , and add numbers upto the images
-        #     //more beautifully ,add reactive on the webs
-
-        # (c) while the post_example was trigered , parse the request.POST['friend']\
-        # request.POST['nothuman'], and record it to the DB(since you have request.POST['facebox']\
-           #and request.POST['pic_path']).
-
-        # (d) using cv2.imread to read pic_path again, and saves the region of face( treat as sub array) to \
-        # three directory (yourFriend,notYourFriend,notHuman)
-
-
+        ###############################################################
+        
+        ###########################################################
+        # (C)
+        #1.create list of tuples(length is 7) from :
+        #request.POST['friend'],request.POST['nothuman'],request.POST['pic_path']
+        #2.inser rows into the Table FaceBoxes you create
+        ###################Write your code here####################
+        #pushMessages=xxxxxxxxx
+        #import sqlite3 #acctually have been import upside
+        #con=sqlite.connect('xxxx.sqlite')
+        #cursor=con.cursor()
+        #cursor.executemany("",pushMessages)
+        #con.commit()
+        ###########################################################
+        
+        ###################################################################
+        # (D) using cv2.imread to read pic_path again, and saves the region of\
+        # face( treat as sub array) to  three directory (yourFriend,notYourFriend,notHuman)
+        ################## Write your code Here ###########################
+        # path from request.POST['pic_path']
+        # img=cv2.imread(path) 
+        # for (x,y,w,h) in faceboxes:
+        #    subimg=img[oo:xx,oo:xx]
+        #    if(friend):
+        #        cv2.imwrite("friend/picxx.jpg",subimg)
+        #    elif(nothuman):
+        #        cv2.imwrite("nothuman/picxx.jpg",subimg)
+        #    else:
+        #        cv2.imwrite("human/picxx.jpg",subimg)
+        ###########################################################
         return HttpResponse(json.dumps({"689":123,"426":92}), content_type='application/json')
 
