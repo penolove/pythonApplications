@@ -20,11 +20,4 @@ on web_broswer:
 http://127.0.0.1:8000/polls/
 (ip you assign)
 
-# for the jieba  part you need to install 
-https://github.com/fxsjy/jieba
-pip install jieba
 
-
-# for the word cloud part you need to install 
-https://github.com/amueller/word_cloud
-(I clone the files down to install)
