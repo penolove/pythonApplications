@@ -30,10 +30,12 @@ def imshow(request):
     return render(request, 'polls/imshow.html',{'pic_path':"target_pics/test_baseketball.jpg"})
 
 def imshow2(request,id):
+    ###you may need to change path here#####
+    basePath = settings.BASE_DIR
+    dirPath = basePath+"/polls/static"
+    ###you need to change path here#####
+    imgdir="/target_pics"
     ######################################################################
-    dirPath="/home/stream/pythonApplications/minimum_django/polls/static/"
-    ######################################################################
-    imgdir="target_pics"
     fileID=glob.glob(dirPath+imgdir+"/*.jpg")
     print "there are "+str(len(fileID)) +" in side target_pics"
     #pass list and loops in the template
@@ -55,18 +57,19 @@ def imFD(request,id):
     # this function will read a image, and face detect , write with retangle
     # thus , render the page with the image with face retangle to web 
 
-    ###you need to change path here#####
-    dirPath="/home/stream/pythonApplications/minimum_django/polls/static/"
-    ###you need to change path here#####
+    ###you may need to change path here#####
+    basePath=settings.BASE_DIR
+    dirPath=basePath+"/polls/static"
+    ###you may need to change path here#####
 
-    imgdir="target_pics/"
-    outdir="out_pics/"
+    imgdir="/target_pics"
+    outdir="/out_pics"
 
     #the file list
-    fileID=glob.glob(dirPath+imgdir+"*.jpg")
+    fileID=glob.glob(dirPath+imgdir+"/*.jpg")
     if(int(id)>=len(fileID)):
         id=str(0)
-    print settings.BASE_DIR
+
     #read the image
     img = cv2.imread(fileID[int(id)])
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
