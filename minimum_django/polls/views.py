@@ -95,7 +95,7 @@ def imFD(request,id):
 
 
     outfileID=glob.glob(dirPath+outdir+"*.jpg")
-    cv2.imwrite(basePath+dirPath+outdir+str(len(outfileID))+".jpg", img)
+    cv2.imwrite(dirPath+outdir+str(len(outfileID))+".jpg", img)
 
     face_list=[[int(j) for j in i] for i in faces]
     #a string that can be passed to browser
