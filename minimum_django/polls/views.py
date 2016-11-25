@@ -126,6 +126,9 @@ def post_example(request):
         
         ###############################################################
         # (B) Create table:FaceBoxes !!OUTSIDE(not in this function)!!
+        # there is a clean sqlite DB ,placed here minimum_django/db.sqlite3
+        # you can start jupyter-note book to interact with the DB
+        # or directly using python in cmd/terminal
         # with col :
         # (image_id(text),friend(bool),human(bool),x(real),y(real),w(real),h(real))
         ###############################################################
