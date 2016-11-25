@@ -59,13 +59,13 @@ def imFD(request,id):
 
     ###you may need to change path here#####
     basePath=settings.BASE_DIR
-    dirPath=basePath+"/polls/static"
+    dirPath=basePath+"/polls/static/"
     ###you may need to change path here#####
-    imgdir="/target_pics"
-    outdir="/out_pics"
+    imgdir="target_pics/"
+    outdir="out_pics/"
 
     #the file list
-    fileID=glob.glob(dirPath+imgdir+"/*.jpg")
+    fileID=glob.glob(dirPath+imgdir+"*.jpg")
     # print fileID
 
     if(int(id)>=len(fileID)):
