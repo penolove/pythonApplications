@@ -61,12 +61,13 @@ def imFD(request,id):
     basePath=settings.BASE_DIR
     dirPath=basePath+"/polls/static"
     ###you may need to change path here#####
-
     imgdir="/target_pics"
     outdir="/out_pics"
 
     #the file list
     fileID=glob.glob(dirPath+imgdir+"/*.jpg")
+    # print fileID
+
     if(int(id)>=len(fileID)):
         id=str(0)
 
@@ -94,7 +95,7 @@ def imFD(request,id):
 
 
     outfileID=glob.glob(dirPath+outdir+"*.jpg")
-    cv2.imwrite(dirPath+outdir+str(len(outfileID))+".jpg", img)
+    cv2.imwrite(basePath+dirPath+outdir+str(len(outfileID))+".jpg", img)
 
     face_list=[[int(j) for j in i] for i in faces]
     #a string that can be passed to browser
