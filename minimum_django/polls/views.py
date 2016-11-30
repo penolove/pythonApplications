@@ -102,7 +102,7 @@ def imFD(request,id):
     faceboxes=json.dumps(dict(zip(range(len(faces)),face_list)))
     #print json.dumps()
 
-
+    fileID[int(id)]= fileID[int(id)].replace('\\',"/")
     return render(request, 'polls/index_FD.html',{'pic_path':outdir+str(len(outfileID))+".jpg",
                 "faceboxes":faceboxes,'pic_ori_path':fileID[int(id)],'id':id})
 import time
@@ -155,6 +155,7 @@ def post_example(request):
         # (D) using cv2.imread to read pic_path again, and saves the region of\
         # face( treat as sub array) to  three directory (yourFriend,notYourFriend,notHuman)
         ################## Write your code Here ###########################
+        #=----------sudo code--------------=
         # path from request.POST['pic_path']
         # img=cv2.imread(path) 
         # for (x,y,w,h) in faceboxes:
@@ -165,6 +166,14 @@ def post_example(request):
         #        cv2.imwrite("nothuman/picxx.jpg",subimg)
         #    else:
         #        cv2.imwrite("human/picxx.jpg",subimg)
+        #======== minimum code uncomment, and run it================ 
+       	path = request.POST['pic_path']
+        faceboxes = json.loads(request.POST['facebox']).items() # json string to dictionary
+        img=cv2.imread(path) 
+        for (key,(x,y,w,h)) in faceboxes:  
+           subimg=img[y:y+h,x:x+w]  
+           # key is important to tell who is your friend
+           cv2.imwrite("picxx.jpg",subimg)
         ###########################################################
         return HttpResponse(json.dumps({"689":123,"426":92}), content_type='application/json')
 
